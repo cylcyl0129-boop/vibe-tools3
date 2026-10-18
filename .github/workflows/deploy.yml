@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# 設定 GITHUB_TOKEN 權限以允許部署至 GitHub Pages 與更新 gh-pages 分支
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# 避免多個工作流程同時部署發生衝突
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 檢出專案代碼 (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 設定 Node.js 環境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 安裝專案依賴 (Install Dependencies)
+        run: npm install --legacy-peer-deps
+
+      - name: 正式打包建置 (Build)
+        run: npm run build
+
+      - name: 設定 GitHub Pages 運行環境
+        uses: actions/configure-pages@v5
+
+      - name: 上傳打包成品 (Upload Dist Artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: 發布至 GitHub Pages (Deploy via Actions)
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 同步推送打包產物至 gh-pages 分支 (雙保險備用)
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

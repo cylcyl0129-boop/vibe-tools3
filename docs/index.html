@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>心靈種子與每日冒險 | Seed of Mind &amp; Daily Adventure</title>
+    <meta name="description" content="當日即時與無負擔的心靈花園與每日微冒險，寫下煩惱、灌溉開花、刮出專屬鼓勵並翻開今日微任務，每日午夜自動歸零重生。" />
+    <meta property="og:title" content="心靈種子與每日冒險 | Seed of Mind &amp; Daily Adventure" />
+    <meta property="og:description" content="當日即時與無負擔的心靈花園與每日微冒險，寫下煩惱、灌溉開花、刮出專屬鼓勵並翻開今日微任務，每日午夜自動歸零重生。" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN (純靜態瀏覽器即時渲染，免打包工具) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Zen Maru Gothic"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- 自訂 CSS 與 3D 卡牌翻轉動效 -->
+
+    <!-- 純 Vanilla JavaScript 業務邏輯控制 (ES6+ 模組原生執行) -->
+    <script type="module" crossorigin src="./assets/index-vO0L2RzB.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CpgayhkS.css">
+  </head>
+  <body class="min-h-screen flex flex-col bg-[#FCFBF7] text-stone-800 font-sans antialiased selection:bg-amber-200 selection:text-amber-900">
+
+    <!-- 頂部導覽列 (Navbar) -->
+    <header class="sticky top-0 z-40 w-full bg-white/85 backdrop-blur-md border-b border-stone-200/80 transition-all">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <!-- 品牌區 -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center text-white shadow-xs">
+            <svg class="w-4 h-4 text-amber-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+          </div>
+          <span class="text-base sm:text-lg font-bold tracking-tight text-stone-900 whitespace-nowrap">
+            心靈種子與每日冒險
+          </span>
+        </div>
+
+        <!-- 操作按鈕 (重新開始 & 音效開關) -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            id="reset-day-btn"
+            title="清空當前狀態並重新開始"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-600 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>重新開始</span>
+          </button>
+
+          <button
+            type="button"
+            id="sound-toggle-btn"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium transition-colors cursor-pointer bg-amber-50/80 border-amber-200/80 text-amber-800 hover:bg-amber-100"
+          >
+            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            <span class="hidden sm:inline">音效開</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+      <!-- 頁面引言 -->
+      <section class="text-center max-w-2xl mx-auto space-y-3 pt-2">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-stone-900 text-balance">
+          將煩惱埋入土中，在微冒險中遇見溫柔
+        </h1>
+        <p class="text-sm sm:text-base text-stone-600 leading-relaxed text-pretty">
+          這裡不記錄累積天數，也沒有連勝打卡負擔。寫下壞心情作為花園養分，翻開今日微任務，每天都是一個嶄新而自由的起點。
+        </p>
+      </section>
+
+      <!-- 區塊 1: 心靈花園與壞心情種子 -->
+      <section class="w-full rounded-3xl bg-white border border-stone-200/90 shadow-sm p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-stone-100">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-stone-800 tracking-tight">心靈花園與壞心情種子</h2>
+            <p class="text-xs sm:text-sm text-stone-500 mt-1">將心中的沉重當作養分，每天灌溉三次，讓煩惱蛻變為盛開的溫柔。</p>
+          </div>
+          <div id="garden-progress-container" class="hidden flex items-center gap-3 text-xs text-stone-600 bg-stone-50 px-3.5 py-1.5 rounded-full border border-stone-200/60 self-start sm:self-auto">
+            <span>成長進度</span>
+            <span id="garden-percent-text" class="font-semibold text-stone-800 tabular-nums">0%</span>
+            <div class="w-16 h-2 bg-stone-200 rounded-full overflow-hidden">
+              <div id="garden-progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 flex flex-col items-center justify-center">
+            <div id="garden-plant-box" class="relative w-full max-w-md h-72 sm:h-80 rounded-2xl bg-gradient-to-b from-stone-50/90 via-emerald-50/20 to-amber-100/30 border border-stone-200/70 flex flex-col items-center justify-end p-6 select-none">
+              <div id="garden-plant-visual" class="w-full h-full flex flex-col items-center justify-end"></div>
+            </div>
+          </div>
+
+          <div id="garden-controls-area" class="lg:col-span-5 flex flex-col justify-center space-y-6"></div>
+        </div>
+      </section>
+
+      <!-- 區塊 2: 每日抽卡區 (3D 盲盒) -->
+      <section class="w-full rounded-3xl bg-white border border-stone-200/90 shadow-sm p-6 sm:p-8 relative">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-stone-100">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-stone-800 tracking-tight">每日抽卡區 (3D 盲盒)</h2>
+            <p class="text-xs sm:text-sm text-stone-500 mt-1">今日卡牌包已就緒，請翻開您的三張卡，開啟今天的微冒險。</p>
+          </div>
+          <div id="blind-box-status" class="self-start sm:self-auto"></div>
+        </div>
+
+        <div id="blind-box-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-1000"></div>
+      </section>
+
+      <!-- 區塊 3: 今日任務清單 -->
+      <section class="w-full rounded-3xl bg-white border border-stone-200/90 shadow-sm p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-100">
+          <div>
+            <div class="flex items-center gap-3">
+              <h2 class="text-xl sm:text-2xl font-bold text-stone-800 tracking-tight">今日任務清單</h2>
+              <span id="task-summary-count" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600 tabular-nums">0/0 完成</span>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-500 mt-1">專注於當下的微小行動，隨心打勾，跨日自動清空歸零。</p>
+          </div>
+
+          <div class="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
+            <button type="button" id="replace-cards-btn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 cursor-pointer">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              <span>更換卡牌 (剩餘 1 次)</span>
+            </button>
+
+            <button type="button" id="open-add-task-btn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer whitespace-nowrap">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>新增自訂任務</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="task-list-items" class="space-y-3"></div>
+      </section>
+
+      <!-- 區塊 4: 情緒轉化閉環引導 -->
+      <section class="rounded-3xl bg-stone-100/70 border border-stone-200/80 p-6 sm:p-8">
+        <h3 class="text-sm sm:text-base font-bold text-stone-800 mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-rose-500 fill-rose-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span>情緒轉化閉環指南</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs text-stone-600">
+          <div class="p-3.5 rounded-xl bg-white border border-stone-200/70">
+            <span class="font-bold text-stone-800 block mb-1">01. 釋放煩惱</span>
+            寫下今日的焦慮或疲憊，將它深深埋入心靈沃土中。
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-stone-200/70">
+            <span class="font-bold text-stone-800 block mb-1">02. 灌溉開花</span>
+            點擊澆水 3 次，看著綠苗發芽、抽長並盛開出溫暖花朵。
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-stone-200/70">
+            <span class="font-bold text-stone-800 block mb-1">03. 刮出祝福</span>
+            收下共情小卡，刮開 Canvas 銀色塗層領取明天的專屬鼓勵。
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-stone-200/70">
+            <span class="font-bold text-stone-800 block mb-1">04. 輕盈冒險</span>
+            翻開 3 張盲盒卡牌，完成當日微行動，午夜 24:00 自動歸零。
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="w-full border-t border-stone-200 bg-white py-6 mt-12 text-center text-xs text-stone-500">
+      <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>純前端架構 · 數據僅存於本機 LocalStorage · 隱私無追蹤</span>
+        </div>
+        <span>心靈種子與每日冒險 · 純粹 HTML / CSS / JS 原生運作</span>
+      </div>
+    </footer>
+
+    <!-- 彈窗: 情緒價值小卡與 Canvas 刮刮卡 -->
+    <div id="healing-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 sm:p-6 bg-stone-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div class="relative w-full max-w-lg rounded-2xl bg-gradient-to-b from-stone-50 via-white to-amber-50/40 p-6 sm:p-8 shadow-2xl border border-stone-200 max-h-[92vh] overflow-y-auto">
+        <button type="button" id="close-modal-btn" class="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-full transition-colors cursor-pointer">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-rose-100/70 text-rose-500 mb-3 shadow-inner">
+            <svg class="w-6 h-6 animate-pulse-gentle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 0 1-4.5 4.5z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold text-stone-800 tracking-tight">情緒價值療癒小卡</h3>
+          <p class="text-xs text-stone-500 mt-1">花朵已盛開，你的煩惱已被土壤溫柔吸收轉化</p>
+        </div>
+
+        <div class="mb-5 p-3.5 rounded-xl bg-stone-100/80 border border-stone-200/60 text-xs text-stone-600">
+          <span class="text-stone-400 font-medium">釋懷的煩惱：</span>
+          <span id="modal-worry-quote" class="italic text-stone-700 ml-1"></span>
+        </div>
+
+        <div class="relative mb-6 p-6 rounded-2xl bg-gradient-to-br from-rose-50/80 via-amber-50/50 to-stone-50 border border-rose-200/50 shadow-sm text-center">
+          <p class="text-stone-400 text-xs tracking-widest font-medium mb-3">· 當下的共情擁抱 ·</p>
+          <p id="modal-healing-quote" class="text-base sm:text-lg font-medium text-stone-800 leading-relaxed tracking-wide px-2"></p>
+        </div>
+
+        <!-- 刮刮卡區 -->
+        <div class="pt-2 border-t border-stone-200/60">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5 text-xs text-stone-500 font-medium">
+              <svg class="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              <span>明天的專屬鼓勵話語</span>
+            </div>
+            <div id="scratch-status-text" class="flex items-center gap-2 text-[11px]">
+              <span id="scratch-percent-indicator" class="text-stone-400 tabular-nums">已刮開 0%</span>
+              <button type="button" id="quick-reveal-btn" class="text-stone-500 hover:text-stone-800 underline underline-offset-2 transition-colors cursor-pointer">直接揭曉</button>
+            </div>
+          </div>
+
+          <div id="scratch-card-container" class="relative w-full h-[120px] rounded-xl overflow-hidden border border-amber-200/60 bg-gradient-to-br from-amber-50/90 via-orange-50/60 to-rose-50/70 select-none shadow-sm flex items-center justify-center p-4">
+            <div class="text-center px-4 max-w-sm">
+              <p class="text-xs font-medium text-amber-700/80 mb-1">【 明日的晨光祝福 】</p>
+              <p id="modal-encouragement-text" class="text-sm font-semibold text-stone-800 leading-relaxed tracking-wide"></p>
+            </div>
+            <canvas id="scratch-card-canvas" class="absolute inset-0 cursor-crosshair z-10"></canvas>
+          </div>
+          <p class="text-center text-[11px] text-stone-400 mt-2">刮開超過 45% 將自動點亮專屬祝福</p>
+        </div>
+
+        <div class="mt-6 flex justify-center">
+          <button type="button" id="modal-back-btn" class="px-6 py-2.5 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 transition-colors shadow-sm cursor-pointer whitespace-nowrap">
+            收下溫柔，回到花園
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 彈窗: 新增自訂任務 -->
+    <div id="add-task-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-stone-200">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-stone-800">新增今日微目標</h3>
+          <button type="button" id="cancel-add-task-btn" class="p-1.5 text-stone-400 hover:text-stone-600 rounded-lg hover:bg-stone-100 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <form id="add-task-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1.5">選擇任務類別</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button type="button" data-cat="心靈" class="cat-select-btn py-2 px-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center bg-stone-900 border-stone-900 text-white shadow-xs">心靈</button>
+              <button type="button" data-cat="健康" class="cat-select-btn py-2 px-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100">健康</button>
+              <button type="button" data-cat="探索" class="cat-select-btn py-2 px-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100">探索</button>
+              <button type="button" data-cat="成長" class="cat-select-btn py-2 px-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer text-center bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100">成長</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="custom-task-input" class="block text-xs font-semibold text-stone-700 mb-1.5">微任務內容（40 字內）</label>
+            <input
+              id="custom-task-input"
+              type="text"
+              maxlength="40"
+              placeholder="例：喝一杯花草茶、對身邊的人道早安..."
+              class="w-full rounded-xl border border-stone-300 p-2.5 text-sm text-stone-800 placeholder-stone-400 focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
+              required
+            />
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-2">
+            <button type="button" onclick="document.getElementById('add-task-modal').classList.add('hidden'); document.getElementById('add-task-modal').classList.remove('flex');" class="px-4 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:bg-stone-100 transition-colors cursor-pointer">取消</button>
+            <button type="submit" class="px-5 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 transition-colors shadow-xs cursor-pointer">確認新增</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 浮動 Toast 提示容器 -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50"></div>
+
+  </body>
+</html>
